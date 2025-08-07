@@ -1,74 +1,212 @@
 # contacts
 
-✅ Summary of Requirements
-Here's a quick breakdown to confirm we're aligned before I generate the PHP code:
+📌 Project overview
 
-📁 File Handling
-Accept .xls, .xlsx, and .csv files.
+📁 Features
 
-First row is always the header.
+⚙️ Installation instructions (MAMP + VS Code)
 
-If multiple sheets: list sheet names and allow user to select one.
+📜 MySQL table schema
 
-Skip empty and duplicate rows (based on EMAIL and FULL NAME).
+💡 PHP dependencies
 
-At the end, report:
+🚀 Usage steps
 
-Number of inserted rows.
+📋 Post-upload report format
 
-Number of empty rows.
+✅ Error handling
 
-Number of duplicated rows.
+markdown
+Copy
+Edit
+# 📤 Excel/CSV Contact Uploader – PHP & MySQL
 
-🧠 Logic & Mapping
-If column names match, map all columns.
+A plain PHP application to upload `.xls`, `.xlsx`, or `.csv` files containing contact data into a MySQL database using **PDO**. Built for MAMP and VS Code environments.
 
-Notify the user of any Excel columns that do not exist in DB.
+---
 
-Create table contacts if not exists with specified schema.
+## ✅ Features
 
-Use MySQL via PDO.
+### 📁 File Handling
+- Accepts `.xls`, `.xlsx`, and `.csv` files.
+- First row is always treated as the **header**.
+- If multiple sheets exist (Excel only):
+  - Display available sheet names.
+  - Allow the user to select a sheet.
+- Skips:
+  - Empty rows.
+  - Duplicate rows (based on `EMAIL` and `FULL NAME`).
+- Reports summary after upload:
+  - ✅ Number of inserted rows.
+  - 🟡 Number of empty rows.
+  - 🔁 Number of duplicated rows.
 
-If table exists: insert only new records.
+### 🧠 Logic & Column Mapping
+- Maps all columns **automatically** if names match schema.
+- Notifies user of **unmapped columns** (if Excel contains columns not in DB).
+- Creates `contacts` table if it does not exist.
+- Inserts **only new records** when table exists (based on deduplication logic).
 
-🌐 Web Interface
-Form-based upload on a webpage.
+### 🌐 Web Interface
+- Simple form-based upload.
+- File validation:
+  - Allowed extensions: `.xls`, `.xlsx`, `.csv`
+  - Max size (configurable)
+- Uses PHP's temporary storage for upload processing.
 
-Perform file validation (extension, size).
+### ⚠️ Error Handling
+- Logs:
+  - Failed inserts
+  - Validation issues
+- Displays a full **summary report** after upload:
+  - Inserted / Duplicate / Skipped Rows
+  - Errors (if any)
 
-Handle temporary storage.
+---
 
-⚠️ Error Handling
-Log errors: failed inserts, validation issues.
+## 📊 MySQL Table Schema (`contacts`)
 
-Provide a summary report after upload.
+```sql
+CREATE TABLE IF NOT EXISTS contacts (
+  ID INT AUTO_INCREMENT PRIMARY KEY,
+  DATA_SOURCE VARCHAR(255),
+  EMAIL VARCHAR(255),
+  FULL_NAME VARCHAR(255),
+  FIRST_NAME VARCHAR(255),
+  MIDDLE_NAME VARCHAR(255),
+  LAST_NAME VARCHAR(255),
+  PROFESION VARCHAR(255),
+  DATE_OF_BIRTH DATE,
+  GENDER VARCHAR(20),
+  PROFILE_PICTURE VARCHAR(255),
+  NATIONALITY VARCHAR(100),
+  RESIDANT_COUNTRY VARCHAR(100),
+  RESIDANT_STATE VARCHAR(100),
+  RESIDANT_CITY VARCHAR(100),
+  PHYSICAL_ADRESS TEXT,
+  PREFERED_LANGUAGE VARCHAR(100),
+  PHONE_NUMBER_COUNTRY_CODE INT,
+  PHONE_NUMBER BIGINT,
+  WHATSAPP_COUNTRY_CODE INT,
+  WHATSAPP_NUMBER BIGINT,
+  FACEBOOK VARCHAR(255),
+  INSTAGRAM VARCHAR(255),
+  X VARCHAR(255),
+  YOUTUBE VARCHAR(255),
+  TELEGRAM VARCHAR(255),
+  SNAPCHAT VARCHAR(255),
+  EMAIL_STATUS VARCHAR(50),
+  FULL_NAME_STATUS VARCHAR(50),
+  EMAIL_DUPLICATES BOOLEAN,
+  EMAIL_DUPLICATES_COUNT INT,
+  FULL_NAME_DUPLICATES BOOLEAN,
+  FULL_NAME_DUPLICATES_COUNT INT,
+  BLACKLIST BOOLEAN,
+  BLACKLIST_COUNT INT,
+  NAME_LANGUAGE VARCHAR(50),
+  NAME_FORMAT VARCHAR(50)
+);
+💻 Environment Setup
+📦 Prerequisites
+PHP 8.x
 
-💻 Environment
-Plain PHP (no framework).
+MySQL (via MAMP)
 
-MAMP + VS Code.
+VS Code
 
-Add installation/setup instructions.
+🛠 Installation Steps
+Clone the Repository
 
-✅ What’s Next
-I’ll now prepare:
+bash
+Copy
+Edit
+git clone https://github.com/your-username/contact-uploader.git
+Move to MAMP's htdocs Folder
 
-PHP Script for Frontend Upload Form
+bash
+Copy
+Edit
+mv contact-uploader /Applications/MAMP/htdocs/
+Start MAMP & Create Database
 
-PHP Backend Script for:
+Create a new MySQL database (e.g., contacts_db).
 
-Handling file upload & validation
+Update DB credentials in config.php.
 
-Reading Excel/CSV
+Install PHP Extensions (if not enabled)
 
-Creating table if not exists
+Enable these PHP extensions in php.ini:
 
-Inserting data with duplicate detection
+pdo_mysql
 
-Logging/reporting
+fileinfo
 
-MySQL Table Schema
+mbstring
 
-Installation Notes (MAMP + VS Code)
+zip
 
-List of PHP Extensions and Composer Packages Required
+xml
+
+curl
+
+Install Required Composer Packages
+
+bash
+Copy
+Edit
+composer require phpoffice/phpspreadsheet
+🚀 How to Use
+Navigate to:
+
+arduino
+Copy
+Edit
+http://localhost/contact-uploader/index.php
+Upload your .xls, .xlsx, or .csv file.
+
+If multiple sheets: select one.
+
+Submit and review the summary report.
+
+📋 Summary Report Format (Sample Output)
+pgsql
+Copy
+Edit
+✅ Inserted Rows: 158  
+🟡 Empty Rows Skipped: 12  
+🔁 Duplicates Skipped: 7  
+❗ Columns not mapped to DB: ['Unmapped Column A', 'RandomField']
+📁 Log File: /logs/upload_2025-08-07.log
+🧾 Logging
+Logs are saved per upload in /logs/.
+
+Includes:
+
+Timestamp
+
+Failed rows with reasons
+
+Skipped entries
+
+🤝 License
+MIT License. Feel free to modify and use for any purpose.
+
+👨‍💻 Author
+Husam Addin Karman
+tkif.org | @hkarman
+
+vbnet
+Copy
+Edit
+
+Let me know if you’d like this as a downloadable file or bundled with the actual PHP scripts you're working on.
+
+
+
+
+
+
+
+
+Ask ChatGPT
+
