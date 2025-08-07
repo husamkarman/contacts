@@ -1,24 +1,5 @@
 # contacts
 
-📌 Project overview
-
-📁 Features
-
-⚙️ Installation instructions (MAMP + VS Code)
-
-📜 MySQL table schema
-
-💡 PHP dependencies
-
-🚀 Usage steps
-
-📋 Post-upload report format
-
-✅ Error handling
-
-markdown
-Copy
-Edit
 # 📤 Excel/CSV Contact Uploader – PHP & MySQL
 
 A plain PHP application to upload `.xls`, `.xlsx`, or `.csv` files containing contact data into a MySQL database using **PDO**. Built for MAMP and VS Code environments.
@@ -106,107 +87,129 @@ CREATE TABLE IF NOT EXISTS contacts (
   NAME_LANGUAGE VARCHAR(50),
   NAME_FORMAT VARCHAR(50)
 );
-💻 Environment Setup
-📦 Prerequisites
-PHP 8.x
+```
 
-MySQL (via MAMP)
+---
 
-VS Code
+## 💻 Environment Setup
 
-🛠 Installation Steps
-Clone the Repository
+### 📦 Prerequisites
+- PHP 8.x
+- MySQL (via MAMP)
+- VS Code
 
-bash
-Copy
-Edit
-git clone https://github.com/your-username/contact-uploader.git
-Move to MAMP's htdocs Folder
+### 🛠 Installation Steps
 
-bash
-Copy
-Edit
-mv contact-uploader /Applications/MAMP/htdocs/
-Start MAMP & Create Database
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/your-username/contact-uploader.git
+   ```
 
-Create a new MySQL database (e.g., contacts_db).
+2. **Move to MAMP's `htdocs` Folder**
+   ```bash
+   mv contact-uploader /Applications/MAMP/htdocs/
+   ```
 
-Update DB credentials in config.php.
+3. **Start MAMP & Create Database**
+   - Create a new MySQL database (e.g., `contacts_db`).
+   - Update DB credentials in `config.php`.
 
-Install PHP Extensions (if not enabled)
+4. **Install PHP Extensions (if not enabled)**
 
-Enable these PHP extensions in php.ini:
+   Enable these PHP extensions in `php.ini`:
+   - `pdo_mysql`
+   - `fileinfo`
+   - `mbstring`
+   - `zip`
+   - `xml`
+   - `curl`
 
-pdo_mysql
+5. **Install Required Composer Packages**
+   ```bash
+   composer require phpoffice/phpspreadsheet
+   ```
 
-fileinfo
+---
 
-mbstring
+## 🚀 How to Use
 
-zip
+1. Navigate to:
+   ```
+   http://localhost/contact-uploader/index.php
+   ```
 
-xml
+2. Upload your `.xls`, `.xlsx`, or `.csv` file.
 
-curl
+3. If multiple sheets: select one.
 
-Install Required Composer Packages
+4. Submit and review the **summary report**.
 
-bash
-Copy
-Edit
-composer require phpoffice/phpspreadsheet
-🚀 How to Use
-Navigate to:
+---
 
-arduino
-Copy
-Edit
-http://localhost/contact-uploader/index.php
-Upload your .xls, .xlsx, or .csv file.
+## 📋 Summary Report Format (Sample Output)
 
-If multiple sheets: select one.
-
-Submit and review the summary report.
-
-📋 Summary Report Format (Sample Output)
-pgsql
-Copy
-Edit
+```
 ✅ Inserted Rows: 158  
 🟡 Empty Rows Skipped: 12  
 🔁 Duplicates Skipped: 7  
 ❗ Columns not mapped to DB: ['Unmapped Column A', 'RandomField']
 📁 Log File: /logs/upload_2025-08-07.log
-🧾 Logging
-Logs are saved per upload in /logs/.
+```
 
-Includes:
+---
 
-Timestamp
+## 📑 Field Definitions
 
-Failed rows with reasons
+| **Field Name**            | **Data Type**       | **Description / Notes**                       |
+| ------------------------- | ------------------- | --------------------------------------------- |
+| ID                        | `INTEGER` or `UUID` | Unique identifier for each record.            |
+| DATA SOURCE               | `VARCHAR`           | Text source identifier (e.g., "form", "CRM"). |
+| EMAIL                     | `VARCHAR`           | Valid email address.                          |
+| FULL NAME                 | `VARCHAR`           | Full name string.                             |
+| FIRST NAME                | `VARCHAR`           | First name only.                              |
+| MIDDLE NAME               | `VARCHAR`           | Middle name (optional).                       |
+| LAST NAME                 | `VARCHAR`           | Last name only.                               |
+| PROFESION                 | `VARCHAR`           | Job title or occupation.                      |
+| DATE OF BIRTH             | `DATE`              | Format: `YYYY-MM-DD`.                         |
+| GENDER                    | `VARCHAR`           | e.g., 'Male', 'Female', 'Other'.              |
+| PROFILE PICTURE           | `VARCHAR (URL)`     | Link to profile image.                        |
+| NATIONALITY               | `VARCHAR`           | Country of citizenship.                       |
+| RESIDANT COUNTRY          | `VARCHAR`           | Country of residence.                         |
+| RESIDANT STATE            | `VARCHAR`           | State or province.                            |
+| RESIDANT CITY             | `VARCHAR`           | City of residence.                            |
+| PHYSICAL ADRESS           | `TEXT`              | Full postal/mailing address.                  |
+| PREFERED LANGUAGE         | `VARCHAR`           | Preferred communication language.             |
+| PHONE NUMBER COUNTRY CODE | `INTEGER`           | Numeric only (e.g., 1, 44, 966).              |
+| PHONE NUMBER              | `BIGINT`            | Use `BIGINT` to handle long phone numbers.    |
+| WHATSAPP COUNTRY CODE     | `INTEGER`           | Numeric only (no `+` prefix).                 |
+| WHATSAPP NUMBER           | `BIGINT`            | WhatsApp phone number.                        |
+| FACEBOOK                  | `VARCHAR (URL)`     | Facebook profile URL or handle.               |
+| INSTAGRAM                 | `VARCHAR (URL)`     | Instagram profile URL or handle.              |
+| X                         | `VARCHAR (URL)`     | X (formerly Twitter) profile URL or handle.   |
+| YOUTUBE                   | `VARCHAR (URL)`     | YouTube channel or profile URL.               |
+| TELEGRAM                  | `VARCHAR (URL)`     | Telegram handle or link.                      |
+| SNAPCHAT                  | `VARCHAR`           | Snapchat username.                            |
+| EMAIL STATUS              | `VARCHAR`           | Status like 'Valid', 'Bounced', etc.          |
+| FULL NAME STATUS          | `VARCHAR`           | e.g., 'Complete', 'Incomplete'.               |
+| EMAIL DUPLICATES          | `BOOLEAN`           | `TRUE` if email is duplicated.                |
+| # EMAIL DUPLICATES        | `INTEGER`           | Number of email duplicates.                   |
+| FULL NAME DUPLICATES      | `BOOLEAN`           | `TRUE` if name is duplicated.                 |
+| # FULL NAME DUPLICATES    | `INTEGER`           | Number of full name duplicates.               |
+| BLACKLIST                 | `BOOLEAN`           | Whether user is blacklisted.                  |
+| # BLACKLIST               | `INTEGER`           | Count of blacklist occurrences (optional).    |
+| NAME LANGUAGE             | `VARCHAR`           | Language of the name (e.g., Arabic, English). |
+| NAME FORMAT               | `VARCHAR`           | e.g., 'First Last', 'Last, First'.            |
 
-Skipped entries
+---
 
-🤝 License
+## 🤝 License
+
 MIT License. Feel free to modify and use for any purpose.
 
-👨‍💻 Author
-Husam Addin Karman
-tkif.org | @hkarman
+---
 
-vbnet
-Copy
-Edit
+## 👨‍💻 Author
 
-Let me know if you’d like this as a downloadable file or bundled with the actual PHP scripts you're working on.
-
-
-
-
-
-
-
-
-Ask ChatGPT
+Husam Addin Karman  
+[tkif.org](https://tkif.org) | `@hkarman`
 
